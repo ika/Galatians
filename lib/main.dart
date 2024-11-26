@@ -1,77 +1,96 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:revelation/about/page.dart';
+import 'package:revelation/bkmarks/page.dart';
+import 'package:revelation/bloc/bloc_font.dart';
+import 'package:revelation/bloc/bloc_italic.dart';
+import 'package:revelation/bloc/bloc_scroll.dart';
+import 'package:revelation/bloc/bloc_size.dart';
+import 'package:revelation/bloc/bloc_theme.dart';
+import 'package:revelation/chapters/page.dart';
+import 'package:revelation/fonts/fonts.dart';
+import 'package:revelation/main/page.dart';
+import 'package:revelation/search/search.dart';
+import 'package:revelation/theme/apptheme.dart';
+import 'package:revelation/theme/theme.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-void main() {
+void main() async {
+  //DartPluginRegistrant.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (Platform.isLinux || Platform.isWindows) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
+
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: kIsWeb
+        ? HydratedStorage.webStorageDirectory
+        : await getTemporaryDirectory(),
+  );
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+    return MultiBlocProvider(
+      providers: [
+        // BlocProvider<RefsBloc>(
+        //   create: (context) => RefsBloc(),
+        // ),
+        BlocProvider<ScrollBloc>(
+          create: (context) => ScrollBloc(),
         ),
+        BlocProvider<ThemeBloc>(
+          create: (context) => ThemeBloc(),
+        ),
+        BlocProvider<FontBloc>(
+          create: (context) => FontBloc(),
+        ),
+        BlocProvider<ItalicBloc>(
+          create: (context) => ItalicBloc(),
+        ),
+        BlocProvider<SizeBloc>(
+          create: (context) => SizeBloc(),
+        ),
+      ],
+      child: BlocBuilder<ThemeBloc, bool>(
+        builder: (context, state) {
+          return MaterialApp(
+            locale: const Locale('en'),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: const [
+              Locale('en'), // English
+              //Locale('es'), // Spanish
+            ],
+            debugShowCheckedModeBanner: false,
+            title: 'The Revelation of John',
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: state ? ThemeMode.light : ThemeMode.dark,
+            initialRoute: '/root',
+            routes: {
+              '/root': (context) => const RevPage(),
+              '/bookmarks': (context) => const BMMarksPage(),
+              '/chapters': (context) => const CaMarksPage(),
+              '/fonts': (context) => const FontsPage(),
+              '/theme': (context) => const ThemePage(),
+              '/about': (context) => const AboutPage(),
+              '/search': (context) => const SearchPage()
+            },
+          );
+        },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
