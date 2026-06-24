@@ -51,15 +51,15 @@ class MyApp extends StatelessWidget {
         BlocProvider<ItalicBloc>(create: (context) => ItalicBloc()),
         BlocProvider<SizeBloc>(create: (context) => SizeBloc()),
       ],
-      child: BlocBuilder<ThemeBloc, bool>(
+      child: BlocBuilder<ThemeBloc, int>(
         builder: (context, state) {
           return MaterialApp(
             locale: const Locale('en'),
             debugShowCheckedModeBanner: false,
-            title: 'The Revelation of John',
-            theme: lightTheme,
-            darkTheme: darkTheme,
-            themeMode: state ? ThemeMode.light : ThemeMode.dark,
+            title: 'Galatians',
+            theme: selectTheme(state),
+            // darkTheme: darkTheme,
+            // themeMode: state ? ThemeMode.light : ThemeMode.dark,
             initialRoute: '/root',
             routes: {
               '/root': (context) => const MainPage(),

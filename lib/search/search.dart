@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:revelation/bloc/bloc_theme.dart';
 
+import '../bloc/bloc_theme.dart';
 import '../bloc/bloc_font.dart';
 import '../bloc/bloc_italic.dart';
 import '../bloc/bloc_scroll.dart';
@@ -26,7 +26,7 @@ class SearchPageState extends State<SearchPage> {
   Future<List<Main>>? results;
 
   late String enterdKeyWord;
-  late bool themeState;
+  late int themeState;
   late String contents;
 
   @override
@@ -74,10 +74,7 @@ class SearchPageState extends State<SearchPage> {
         return const AlertDialog(
           content: SingleChildScrollView(
             child: Center(
-              child: Text(
-                'Enter a search text!',
-                textAlign: TextAlign.center,
-              ),
+              child: Text('Enter a search text!', textAlign: TextAlign.center),
             ),
           ),
         );
@@ -123,7 +120,7 @@ class SearchPageState extends State<SearchPage> {
                 ? FontStyle.italic
                 : FontStyle.normal,
             fontSize: context.read<SizeBloc>().state,
-            color: (themeState) ? Colors.black : Colors.white,
+            //color: (themeState) ? Colors.black : Colors.white,
           ),
           children: [
             TextSpan(
@@ -146,7 +143,7 @@ class SearchPageState extends State<SearchPage> {
                     ? FontStyle.italic
                     : FontStyle.normal,
                 fontSize: context.read<SizeBloc>().state,
-                color: themeState ? Colors.black : Colors.white,
+                //color: themeState ? Colors.black : Colors.white,
               ),
             ),
           ],
@@ -192,7 +189,10 @@ class SearchPageState extends State<SearchPage> {
         ),
         title: Text(
           'Search',
-          style: const TextStyle(fontWeight: FontWeight.w700),
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
         ),
         leading: GestureDetector(
           child: const Icon(Icons.arrow_back),

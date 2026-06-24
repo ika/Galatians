@@ -175,22 +175,26 @@ class MainDrawer extends StatelessWidget {
               );
             },
           ),
-          ListTile(
-            leading: Icon(
-              Icons.share,
-              color: Theme.of(context).colorScheme.primary,
+          if (Globals.isShareEnabled)
+            ListTile(
+              leading: Icon(
+                Icons.share,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              trailing: Icon(
+                Icons.keyboard_arrow_right,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              title: Text(
+                'Share',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              dense: true,
+              onTap: () {
+                Navigator.pop(context);
+                _onShareLink();
+              },
             ),
-            trailing: Icon(
-              Icons.keyboard_arrow_right,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            title: Text('Share', style: Theme.of(context).textTheme.bodyLarge),
-            dense: true,
-            onTap: () {
-              Navigator.pop(context);
-              _onShareLink();
-            },
-          ),
         ],
       ),
     );

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:revelation/cache/queries.dart';
+import '../cache/queries.dart';
 
 import '../bloc/bloc_scroll.dart';
 import '../globals.dart';
@@ -53,7 +53,7 @@ class CachePageState extends State<CachePage> {
                   gradient: LinearGradient(
                     colors: [
                       Theme.of(context).colorScheme.primary,
-                      Theme.of(context).colorScheme.surface
+                      Theme.of(context).colorScheme.surface,
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -62,9 +62,7 @@ class CachePageState extends State<CachePage> {
               ),
               leading: GestureDetector(
                 child: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                  ),
+                  icon: const Icon(Icons.arrow_back),
                   onPressed: () {
                     Future.delayed(
                       Duration(milliseconds: Globals.navigatorDelay),
@@ -77,35 +75,44 @@ class CachePageState extends State<CachePage> {
                   },
                 ),
               ),
-              title: Text(titleText,
-                  style: TextStyle(fontWeight: FontWeight.w700)),
+              title: Text(
+                titleText,
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+              ),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () => confirmDialog(context, 'Delete All Entries?')
                       .then((value) {
-                    if (value) {
-                      cacheQueries
-                          .deleteCacheAllbyCode(Globals.cacheSelector)
-                          .then((_) {
-                        setState(() {
-                          _cacheFuture = getCacheFuture();
-                        });
-                        Future.delayed(
-                          Duration(microseconds: Globals.navigatorDelay),
-                          () {
-                            if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('All entries Deleted'),
-                                ),
-                              );
-                            }
-                          },
-                        );
-                      });
-                    }
-                  }),
+                        if (value) {
+                          cacheQueries
+                              .deleteCacheAllbyCode(Globals.cacheSelector)
+                              .then((_) {
+                                setState(() {
+                                  _cacheFuture = getCacheFuture();
+                                });
+                                Future.delayed(
+                                  Duration(
+                                    microseconds: Globals.navigatorDelay,
+                                  ),
+                                  () {
+                                    if (context.mounted) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text('All entries Deleted'),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                );
+                              });
+                        }
+                      }),
                 ),
               ],
             ),
@@ -123,8 +130,10 @@ class CachePageState extends State<CachePage> {
                     ),
                     subtitle: Row(
                       children: [
-                        Icon(Icons.linear_scale,
-                            color: Theme.of(context).colorScheme.primary),
+                        Icon(
+                          Icons.linear_scale,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                         const SizedBox(width: 8),
                         Flexible(
                           child: Text(
@@ -145,9 +154,10 @@ class CachePageState extends State<CachePage> {
                       // Navigator.of(context).pushNamed('/root');
 
                       final model = Cache(
-                          id: list[index].id,
-                          text: list[index].text,
-                          code: Globals.cacheSelector);
+                        id: list[index].id,
+                        text: list[index].text,
+                        code: Globals.cacheSelector,
+                      );
 
                       showModalBottomSheet(
                         context: context,
@@ -191,13 +201,17 @@ Future confirmDialog(BuildContext context, String title) async {
       title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
       actions: [
         TextButton(
-          child:
-              Text('Yes', style: const TextStyle(fontWeight: FontWeight.bold)),
+          child: Text(
+            'Yes',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
           onPressed: () => Navigator.of(context).pop(true),
         ),
         TextButton(
-          child:
-              Text('No', style: const TextStyle(fontWeight: FontWeight.bold)),
+          child: Text(
+            'No',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
           onPressed: () => Navigator.of(context).pop(false),
         ),
       ],

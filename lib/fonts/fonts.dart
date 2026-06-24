@@ -24,7 +24,6 @@ class FontsPage extends StatefulWidget {
 }
 
 class _FontsPageState extends State<FontsPage> {
-
   late int selectedFont;
   late int fontNumber;
   late bool italicIsOn;
@@ -100,178 +99,171 @@ class _FontsPageState extends State<FontsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: Theme.of(context).colorScheme.inversePrimary,
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.inversePrimary,
+        ),
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Theme.of(context).colorScheme.primary,
+                Theme.of(context).colorScheme.surface,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
           ),
-          backgroundColor: Colors.transparent,
-          centerTitle: true,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Theme.of(context).colorScheme.primary,
-                  Theme.of(context).colorScheme.surface,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+        ),
+        leading: GestureDetector(
+          child: const Icon(Icons.arrow_back),
+          onTap: () {
+            //backButton(context);
+            Future.delayed(Duration(milliseconds: Globals.navigatorDelay), () {
+              if (context.mounted) {
+                Navigator.of(context).pop();
+              }
+            });
+          },
+        ),
+        //elevation: 16,
+        title: Text(
+          "Font Size $textSize",
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
+        ),
+        actions: [
+          // IconButton(
+          //   tooltip: 'Adjust font size',
+          //   icon: const Icon(Icons.text_fields),
+          //   onPressed: changeFontSize,
+          // ),
+          // PopupMenuButton(
+          //   icon: const Icon(Icons.format_size_sharp),
+          //   itemBuilder: (context) {
+          //     if (Platform.isLinux || Platform.isWindows) {
+          //       return [
+          //         const PopupMenuItem<int>(value: 14, child: Text("14.0")),
+          //         const PopupMenuItem<int>(value: 16, child: Text("16.0")),
+          //         const PopupMenuItem<int>(value: 18, child: Text("18.0")),
+          //         const PopupMenuItem<int>(value: 20, child: Text("20.0")),
+          //         const PopupMenuItem<int>(value: 22, child: Text("22.0")),
+          //         const PopupMenuItem<int>(value: 24, child: Text("24.0")),
+          //         const PopupMenuItem<int>(value: 26, child: Text("26.0")),
+          //         const PopupMenuItem<int>(value: 28, child: Text("28.0")),
+          //         const PopupMenuItem<int>(value: 30, child: Text("30.0")),
+          //       ];
+          //     } else {
+          //       return [
+          //         const PopupMenuItem<int>(value: 12, child: Text("12.0")),
+          //         const PopupMenuItem<int>(value: 14, child: Text("14.0")),
+          //         const PopupMenuItem<int>(value: 16, child: Text("16.0")),
+          //         const PopupMenuItem<int>(value: 18, child: Text("18.0")),
+          //         const PopupMenuItem<int>(value: 20, child: Text("20.0")),
+          //         const PopupMenuItem<int>(value: 22, child: Text("22.0")),
+          //         const PopupMenuItem<int>(value: 24, child: Text("24.0")),
+          //       ];
+          //     }
+          //   },
+          //   onSelected: (int value) {
+          //     double val = value.toDouble();
+          //     context.read<SizeBloc>().add(UpdateSize(size: val));
+          //     setState(() {
+          //       textSize = val;
+          //     });
+          //   },
+          // ),
+          // PopupMenuButton(
+          //   icon: const Icon(Icons.format_italic_sharp),
+          //   itemBuilder: (context) {
+          //     return [
+          //       PopupMenuItem<int>(
+          //         value: 0,
+          //         child: Text('Normal'),
+          //       ),
+          //       PopupMenuItem<int>(
+          //         value: 1,
+          //         child: Text(
+          //           'Italic',
+          //           style: const TextStyle(fontStyle: FontStyle.italic),
+          //         ),
+          //       ),
+          //     ];
+          //   },
+          //   onSelected: (int value) {
+          //     bool on = (value == 1) ? true : false;
+          //     context.read<ItalicBloc>().add(ChangeItalic(italicIsOn: on));
+          //     setState(() {
+          //       italicIsOn = on;
+          //     });
+          //   },
+          // ),
+        ],
+      ),
+      body: Center(
+        child: ListView.builder(
+          itemCount: fontsList.length,
+          itemBuilder: (BuildContext context, int index) {
+            String t = (italicIsOn) ? 'Italic' : 'Normal';
+
+            return ListTile(
+              title: Text(
+                "${fontsList[index]} $t",
+                style: TextStyle(
+                  fontStyle: (italicIsOn) ? FontStyle.italic : FontStyle.normal,
+                ),
               ),
-            ),
-          ),
-          leading: GestureDetector(
-            child: const Icon(Icons.arrow_back),
-            onTap: () {
-              //backButton(context);
-              Future.delayed(
-                Duration(milliseconds: Globals.navigatorDelay),
-                () {
-                  if (context.mounted) {
-                    Navigator.of(context).pop();
-                  }
-                },
-              );
-            },
-          ),
-          //elevation: 16,
-          title: Text(
-            "Font Size $textSize",
-            style: const TextStyle(fontWeight: FontWeight.w700),
-          ),
-          actions: [
-            // IconButton(
-            //   tooltip: 'Adjust font size',
-            //   icon: const Icon(Icons.text_fields),
-            //   onPressed: changeFontSize,
-            // ),
-            // PopupMenuButton(
-            //   icon: const Icon(Icons.format_size_sharp),
-            //   itemBuilder: (context) {
-            //     if (Platform.isLinux || Platform.isWindows) {
-            //       return [
-            //         const PopupMenuItem<int>(value: 14, child: Text("14.0")),
-            //         const PopupMenuItem<int>(value: 16, child: Text("16.0")),
-            //         const PopupMenuItem<int>(value: 18, child: Text("18.0")),
-            //         const PopupMenuItem<int>(value: 20, child: Text("20.0")),
-            //         const PopupMenuItem<int>(value: 22, child: Text("22.0")),
-            //         const PopupMenuItem<int>(value: 24, child: Text("24.0")),
-            //         const PopupMenuItem<int>(value: 26, child: Text("26.0")),
-            //         const PopupMenuItem<int>(value: 28, child: Text("28.0")),
-            //         const PopupMenuItem<int>(value: 30, child: Text("30.0")),
-            //       ];
-            //     } else {
-            //       return [
-            //         const PopupMenuItem<int>(value: 12, child: Text("12.0")),
-            //         const PopupMenuItem<int>(value: 14, child: Text("14.0")),
-            //         const PopupMenuItem<int>(value: 16, child: Text("16.0")),
-            //         const PopupMenuItem<int>(value: 18, child: Text("18.0")),
-            //         const PopupMenuItem<int>(value: 20, child: Text("20.0")),
-            //         const PopupMenuItem<int>(value: 22, child: Text("22.0")),
-            //         const PopupMenuItem<int>(value: 24, child: Text("24.0")),
-            //       ];
-            //     }
-            //   },
-            //   onSelected: (int value) {
-            //     double val = value.toDouble();
-            //     context.read<SizeBloc>().add(UpdateSize(size: val));
-            //     setState(() {
-            //       textSize = val;
-            //     });
-            //   },
-            // ),
-            // PopupMenuButton(
-            //   icon: const Icon(Icons.format_italic_sharp),
-            //   itemBuilder: (context) {
-            //     return [
-            //       PopupMenuItem<int>(
-            //         value: 0,
-            //         child: Text('Normal'),
-            //       ),
-            //       PopupMenuItem<int>(
-            //         value: 1,
-            //         child: Text(
-            //           'Italic',
-            //           style: const TextStyle(fontStyle: FontStyle.italic),
-            //         ),
-            //       ),
-            //     ];
-            //   },
-            //   onSelected: (int value) {
-            //     bool on = (value == 1) ? true : false;
-            //     context.read<ItalicBloc>().add(ChangeItalic(italicIsOn: on));
-            //     setState(() {
-            //       italicIsOn = on;
-            //     });
-            //   },
-            // ),
-          ],
-        ),
-        body: Center(
-          child: ListView.builder(
-            itemCount: fontsList.length,
-            itemBuilder: (BuildContext context, int index) {
-              String t = (italicIsOn) ? 'Italic' : 'Normal';
-
-              return ListTile(
-                title: Text(
-                  "${fontsList[index]} $t",
-                  style: TextStyle(
-                    fontStyle: (italicIsOn)
-                        ? FontStyle.italic
-                        : FontStyle.normal,
-                  ),
+              subtitle: Text(
+                'The Lord is my shepherd.',
+                style: TextStyle(
+                  backgroundColor: (index == selectedFont)
+                      ? Theme.of(context).colorScheme.tertiaryContainer
+                      : null,
+                  fontStyle: (italicIsOn) ? FontStyle.italic : FontStyle.normal,
+                  fontFamily: fontsList[index],
+                  fontSize: textSize,
                 ),
-                subtitle: Text(
-                  'The Lord is my shepherd.',
-                  style: TextStyle(
-                    backgroundColor: (index == selectedFont)
-                        ? Theme.of(context).colorScheme.tertiaryContainer
-                        : null,
-                    fontStyle: (italicIsOn)
-                        ? FontStyle.italic
-                        : FontStyle.normal,
-                    fontFamily: fontsList[index],
-                    fontSize: textSize,
-                  ),
-                ),
-                onTap: () {
-                  fontNumber = index;
+              ),
+              onTap: () {
+                fontNumber = index;
 
-                  fontConfirmDialog(context);
-                },
-              );
-            },
-          ),
-        ),
-        floatingActionButton: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FloatingActionButton.extended(
-              heroTag: "size",
-              icon: const Icon(Icons.format_size),
-              label: Text("${textSize.toInt()}"),
-              onPressed: changeFontSize,
-            ),
-            const SizedBox(height: 12),
-            FloatingActionButton.extended(
-              heroTag: "italic",
-              icon: Icon(italicIsOn ? Icons.format_italic : Icons.text_fields),
-              label: Text(italicIsOn ? "Italic" : "Normal"),
-              onPressed: () {
-                context.read<ItalicBloc>().add(
-                  ChangeItalic(italicIsOn: !italicIsOn),
-                );
-                setState(() => italicIsOn = !italicIsOn);
+                fontConfirmDialog(context);
               },
-            ),
-          ],
+            );
+          },
         ),
-        floatingActionButtonLocation: const EndTopFloatingActionButtonLocation(
-          horizontalMargin: 16.0,
-          verticalOffset: 10.0,
-        ),
+      ),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton.extended(
+            heroTag: "size",
+            icon: const Icon(Icons.format_size),
+            label: Text("${textSize.toInt()}"),
+            onPressed: changeFontSize,
+          ),
+          const SizedBox(height: 12),
+          FloatingActionButton.extended(
+            heroTag: "italic",
+            icon: Icon(italicIsOn ? Icons.format_italic : Icons.text_fields),
+            label: Text(italicIsOn ? "Italic" : "Normal"),
+            onPressed: () {
+              context.read<ItalicBloc>().add(
+                ChangeItalic(italicIsOn: !italicIsOn),
+              );
+              setState(() => italicIsOn = !italicIsOn);
+            },
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: const EndTopFloatingActionButtonLocation(
+        horizontalMargin: 16.0,
+        verticalOffset: 10.0,
       ),
     );
   }

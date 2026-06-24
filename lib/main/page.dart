@@ -1,7 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:revelation/main/queries.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -13,7 +12,8 @@ import '../cache/model.dart';
 import '../cache/page.dart';
 import '../fonts/list.dart';
 import '../globals.dart';
-import 'model.dart';
+import './model.dart';
+import './queries.dart';
 
 part 'bottom.dart';
 
@@ -115,7 +115,10 @@ class MainPageState extends State<MainPage> {
               ),
               title: Text(
                 'Galatians',
-                style: const TextStyle(fontWeight: FontWeight.w700),
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
               ),
             ),
             drawer: MainDrawer(onReturnSuccess: onReturnSuccess),
