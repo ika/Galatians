@@ -3,7 +3,7 @@
 //-------------------------------------------------------------
 
 class Constants {
-  static const String mainBaseName = "main.db";
+  static const String mainBaseName = "gal.db";
   static const String mainTableName = "main";
 
   static const String cacheBaseName = "cache.db";
