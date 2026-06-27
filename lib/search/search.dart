@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/bloc_theme.dart';
 import '../bloc/bloc_font.dart';
 import '../bloc/bloc_italic.dart';
 import '../bloc/bloc_scroll.dart';
@@ -22,37 +21,24 @@ class SearchPageState extends State<SearchPage> {
   List<Main> list = List<Main>.empty();
 
   Future<List<Main>>? filteredSearch;
-  Future<List<Main>>? blankSearch;
-  Future<List<Main>>? results;
+  final Future<List<Main>> blankSearch = Future.value([]);
 
-  late String enterdKeyWord;
-  late int themeState;
-  late String contents;
+  String contents = '';
+  String submittedQuery = '';
 
   @override
   void initState() {
     super.initState();
-    blankSearch = Future.value([]);
     filteredSearch = blankSearch;
-    enterdKeyWord = '';
-    themeState = context.read<ThemeBloc>().state;
-    contents = '';
   }
 
-  Future<void> runFilter(String enterdKeyWord) async {
-    enterdKeyWord.isEmpty
-        ? results = blankSearch
-        : results = MainQueries().getSearchedValues(enterdKeyWord);
-
-    //   // Print a Future<List> from database
-    //   results?.then((List<Rev> list) {
-    //     for (var i = 0; i < list.length; i++) {
-    //       debugPrint(list[i].t.toString());
-    //     }
-    //   });
-
+  void runFilter(String keyword) {
+    final query = keyword.trim();
     setState(() {
-      filteredSearch = results;
+      submittedQuery = query;
+      filteredSearch = query.isEmpty
+          ? blankSearch
+          : MainQueries().getSearchedValues(query);
     });
   }
 
@@ -120,7 +106,7 @@ class SearchPageState extends State<SearchPage> {
                 ? FontStyle.italic
                 : FontStyle.normal,
             fontSize: context.read<SizeBloc>().state,
-            //color: (themeState) ? Colors.black : Colors.white,
+            color: Theme.of(context).colorScheme.primary,
           ),
           children: [
             TextSpan(
@@ -143,7 +129,7 @@ class SearchPageState extends State<SearchPage> {
                     ? FontStyle.italic
                     : FontStyle.normal,
                 fontSize: context.read<SizeBloc>().state,
-                //color: themeState ? Colors.black : Colors.white,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
           ],
@@ -159,7 +145,7 @@ class SearchPageState extends State<SearchPage> {
                 ? FontStyle.italic
                 : FontStyle.normal,
             fontSize: context.read<SizeBloc>().state,
-            color: Theme.of(context).colorScheme.error,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
       );
@@ -244,7 +230,7 @@ class SearchPageState extends State<SearchPage> {
                           return ListTile(
                             title: highLiteSearchWord(
                               list[index].t,
-                              contents,
+                              submittedQuery,
                               context,
                             ),
                             onTap: () {
