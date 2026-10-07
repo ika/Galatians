@@ -19,7 +19,7 @@ part 'bottom.dart';
 
 part 'drawer.dart';
 
-// Revelation
+// Galatians
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -219,4 +219,28 @@ class MainPageState extends State<MainPage> {
       }
     }
   }
+
+}
+
+  class _BottomSheetDragHandle extends StatelessWidget {
+    const _BottomSheetDragHandle();
+  
+    @override
+    Widget build(BuildContext context) {
+      return Column(
+        children: [
+          const SizedBox(height: 8),
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: Colors.black26,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 8),
+        ],
+      );
+    }
+  
 }
