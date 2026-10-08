@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:galatians/main/page.dart';
 import '../cache/queries.dart';
 
 import '../bloc/bloc_scroll.dart';

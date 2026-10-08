@@ -15,7 +15,7 @@ class BottomSheetWidget extends StatelessWidget {
     final mq = MediaQuery.of(context);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    //final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
     const tileContentPadding = EdgeInsets.symmetric(
       horizontal: 16,
       vertical: 8,
@@ -43,7 +43,7 @@ class BottomSheetWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Drag handle
-                const _BottomSheetDragHandle(),
+                const BottomSheetDragHandle(),
                 Card(
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -65,53 +65,6 @@ class BottomSheetWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                // ListTile(
-                //   leading: const Icon(Icons.bookmark_add),
-                //   title: const Text('Bookmark Verse'),
-                //   onTap: () async {
-                //     Navigator.pop(context);
-                //     Cache bookModel =
-                //         Cache(id: model.id, text: model.text, code: 1);
-                //     cacheQueries.doesCacheEntryExist(model.id!).then(
-                //       (value) {
-                //         if (context.mounted) {
-                //           if (value < 1) {
-                //             var futureReturn =
-                //                 cacheQueries.saveCacheEntry(bookModel);
-                //             futureReturn.then((_) {
-                //               onReturnSuccess();
-                //               Future.delayed(
-                //                 Duration(microseconds: Globals.navigatorDelay),
-                //                 () {
-                //                   if (context.mounted) {
-                //                     ScaffoldMessenger.of(context).showSnackBar(
-                //                       SnackBar(
-                //                         content: Text('Bookmark Added'),
-                //                       ),
-                //                     );
-                //                   }
-                //                 },
-                //               );
-                //             });
-                //           } else {
-                //             Future.delayed(
-                //               Duration(microseconds: Globals.navigatorDelay),
-                //               () {
-                //                 if (context.mounted) {
-                //                   ScaffoldMessenger.of(context).showSnackBar(
-                //                     SnackBar(
-                //                       content: Text('Bookmark Already Exists'),
-                //                     ),
-                //                   );
-                //                 }
-                //               },
-                //             );
-                //           }
-                //         }
-                //       },
-                //     );
-                //   },
-                // ),
                 Card(
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -149,39 +102,41 @@ class BottomSheetWidget extends StatelessWidget {
                           text: model.text,
                           code: 1,
                         );
-                        cacheQueries.doesCacheEntryExist(model.id!).then((value) {
-                          if (context.mounted) {
-                            if (value < 1) {
-                              var futureReturn = cacheQueries.saveCacheEntry(
-                                bookModel,
-                              );
-                              futureReturn.then((_) {
-                                onReturnSuccess();
-                                Future.delayed(
-                                  Duration(microseconds: Globals.navigatorDelay),
-                                  () {
-                                    if (context.mounted) {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(content: Text('Bookmark Added')),
-                                      );
-                                    }
-                                  },
-                                );
-                              });
-                            } else {
+                        cacheQueries.doesCacheEntryExist(model.id!).then((
+                          value,
+                        ) {
+                          if (value < 1) {
+                            var futureReturn = cacheQueries.saveCacheEntry(
+                              bookModel,
+                            );
+                            futureReturn.then((_) {
+                              onReturnSuccess();
                               Future.delayed(
-                                Duration(microseconds: Globals.navigatorDelay),
+                                Duration(
+                                  microseconds: Globals.navigatorDelay,
+                                ),
                                 () {
-                                  if (context.mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('Bookmark Already Exists'),
-                                      ),
-                                    );
-                                  }
+                                  scaffoldMessenger.showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Bookmark Added'),
+                                    ),
+                                  );
                                 },
                               );
-                            }
+                            });
+                          } else {
+                            Future.delayed(
+                              Duration(microseconds: Globals.navigatorDelay),
+                              () {
+                                scaffoldMessenger.showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Bookmark Already Exists',
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
                           }
                         });
                       },
@@ -225,41 +180,41 @@ class BottomSheetWidget extends StatelessWidget {
                           text: model.text,
                           code: 2,
                         );
-                        cacheQueries.doesCacheEntryExist(model.id!).then((value) {
-                          if (context.mounted) {
-                            if (value < 1) {
-                              var futureReturn = cacheQueries.saveCacheEntry(
-                                bookModel,
-                              );
-                              futureReturn.then((_) {
-                                onReturnSuccess();
-                                Future.delayed(
-                                  Duration(microseconds: Globals.navigatorDelay),
-                                  () {
-                                    if (context.mounted) {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text('Highlight Added'),
-                                        ),
-                                      );
-                                    }
-                                  },
-                                );
-                              });
-                            } else {
+                        cacheQueries.doesCacheEntryExist(model.id!).then((
+                          value,
+                        ) {
+                          if (value < 1) {
+                            var futureReturn = cacheQueries.saveCacheEntry(
+                              bookModel,
+                            );
+                            futureReturn.then((_) {
+                              onReturnSuccess();
                               Future.delayed(
-                                Duration(microseconds: Globals.navigatorDelay),
+                                Duration(
+                                  microseconds: Globals.navigatorDelay,
+                                ),
                                 () {
-                                  if (context.mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('Highlight Already Exists'),
-                                      ),
-                                    );
-                                  }
+                                  scaffoldMessenger.showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Highlight Added'),
+                                    ),
+                                  );
                                 },
                               );
-                            }
+                            });
+                          } else {
+                            Future.delayed(
+                              Duration(microseconds: Globals.navigatorDelay),
+                              () {
+                                scaffoldMessenger.showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Highlight Already Exists',
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
                           }
                         });
                       },
@@ -297,6 +252,7 @@ class BottomSheetWidget extends StatelessWidget {
                       ),
                       title: Text('Copy Verse'),
                       onTap: () async {
+                        Navigator.pop(context);
                         final copyText = <String>[model.text];
 
                         final sb = StringBuffer();
@@ -308,11 +264,9 @@ class BottomSheetWidget extends StatelessWidget {
                           Future.delayed(
                             Duration(milliseconds: Globals.navigatorLongDelay),
                             () {
-                              if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Text Copied')),
-                                );
-                              }
+                              scaffoldMessenger.showSnackBar(
+                                const SnackBar(content: Text('Text Copied')),
+                              );
                             },
                           );
                         });

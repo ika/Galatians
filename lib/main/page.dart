@@ -219,28 +219,26 @@ class MainPageState extends State<MainPage> {
       }
     }
   }
-
 }
 
-  class _BottomSheetDragHandle extends StatelessWidget {
-    const _BottomSheetDragHandle();
-  
-    @override
-    Widget build(BuildContext context) {
-      return Column(
-        children: [
-          const SizedBox(height: 8),
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: Colors.black26,
-              borderRadius: BorderRadius.circular(2),
-            ),
+class BottomSheetDragHandle extends StatelessWidget {
+  const BottomSheetDragHandle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 8),
+        Container(
+          width: 40,
+          height: 4,
+          decoration: BoxDecoration(
+            color: Colors.black26,
+            borderRadius: BorderRadius.circular(2),
           ),
-          const SizedBox(height: 8),
-        ],
-      );
-    }
-  
+        ),
+        const SizedBox(height: 8),
+      ],
+    );
+  }
 }
