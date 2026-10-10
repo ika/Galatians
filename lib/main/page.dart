@@ -147,9 +147,6 @@ class MainPageState extends State<MainPage> {
                         text: paragraphs[index].t,
                         code: Globals.cacheSelector,
                       );
-
-                      //showPopupMenu(context, model);
-
                       showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,

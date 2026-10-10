@@ -113,7 +113,7 @@ class CachePageState extends State<CachePage> {
                                 );
                               });
                         }
-                      }),
+                  }),
                 ),
               ],
             ),
@@ -126,7 +126,7 @@ class CachePageState extends State<CachePage> {
                     // contentPadding: const EdgeInsets.symmetric(
                     //     horizontal: 20.0, vertical: 10.0),
                     title: Text(
-                      'Revelation',
+                      titleText,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     subtitle: Row(
@@ -145,15 +145,7 @@ class CachePageState extends State<CachePage> {
                         ),
                       ],
                     ),
-                    // trailing: Icon(Icons.keyboard_arrow_right,
-                    //     color: Theme.of(context).colorScheme.primary,
-                    //     size: 20.0),
                     onTap: () {
-                      // context.read<ScrollBloc>().add(
-                      //       UpdateScroll(index: list[index].id! - 1),
-                      //     );
-                      // Navigator.of(context).pushNamed('/root');
-
                       final model = Cache(
                         id: list[index].id,
                         text: list[index].text,
