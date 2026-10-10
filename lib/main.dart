@@ -85,11 +85,6 @@ class DbLoader {
 
     bool exists = await databaseExists(path);
 
-    //if (exists) {
-    //  await deleteDatabase(path);
-    //  exists = false;
-    //}
-
     if (!exists) {
       try {
         await Directory(dirname(path)).create(recursive: true);
